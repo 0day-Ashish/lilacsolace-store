@@ -1,32 +1,48 @@
 'use client';
 import Image from "next/image";
 import React, { useRef } from "react";
+import Link from "next/link";
 
 export default function AboutPage() {
 
   const navRef = useRef<HTMLElement | null>(null);
   return (
     <main style={{ minHeight: '100vh', backgroundColor: '#c8a2c8', margin: 0, position: 'relative' }}>
-      <h1 style={{
-        fontFamily: "'MeowScript', sans-serif",
-        position: 'absolute',
-        top: 15,
-        left: 18,
-        margin: 0,
-        fontSize: '4rem',
-        color: '#ffffff'
-      }}>
-        Lilacsolace .
-      </h1>
+      <Link href="/">
+				<h1 style={{
+					fontFamily: "'MeowScript', sans-serif",
+					position: 'absolute',
+					top: 15,
+					left: 18,
+					margin: 0,
+					fontSize: '4rem',
+					color: '#ffffff',
+					cursor: 'pointer'
+				}}>
+					Lilacsolace .
+				</h1>
+			</Link>
 
       <nav ref={navRef} className="topNav" aria-label="Main Navigation">
         <ul className="desktopNav">
-          <li><button className="navItem"  type="button">about</button></li>
-          <li><button className="navItem" type="button">booth</button></li>
-          <li><button className="navItem" type="button">ideas</button></li>
+          <li><Link href="/about" className="navItem"  type="button">about</Link></li>
+          <li><Link href="/booth" className="navItem" type="button">booth</Link></li>
+          <li><Link href="/ideas" className="navItem" type="button">ideas</Link></li>
         </ul>
       </nav>
       <style jsx>{`
+
+      .pageRoot {
+					min-height: 100vh;
+					background: linear-gradient(120deg, #c8a2c8 0%, #eec8f0 40%, #b5a0ff 100%);
+					background-size: 300% 300%;
+					animation: gradientMove 10s ease infinite;
+				}
+				@keyframes gradientMove {
+					0% { background-position: 0% 50%; }
+					50% { background-position: 100% 50%; }
+					100% { background-position: 0% 50%; }
+				}
 
       .topNav {
           position: absolute;

@@ -3,13 +3,16 @@ import React, { useRef, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export default function Page() {
 	const videoRef = useRef<HTMLVideoElement | null>(null);
 	const streamRef = useRef<MediaStream | null>(null);
 	const [isMobile, setIsMobile] = useState<boolean>(false);
 	const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
+	const [loading, setLoading] = useState<boolean>(false);
 	const navRef = useRef<HTMLElement | null>(null);
+	const pathname = usePathname();
 
 	useEffect(() => {
 		function handleResize() {
@@ -69,25 +72,31 @@ export default function Page() {
 		};
 	}, [isMobile]);
 
+	useEffect(() => {
+		setLoading(false);
+	}, [pathname]);
+
 	return (
-		<main style={{ minHeight: '100vh', backgroundColor: '#c8a2c8', margin: 0, position: 'relative' }}>
-			<h1 style={{
-				fontFamily: "'MeowScript', sans-serif",
-				position: 'absolute',
-				top: 15,
-				left: 18,
-				margin: 0,
-				fontSize: '4rem',
-				color: '#ffffff'
-			}}>
-				Lilacsolace .
-			</h1>
+		<main className="pageRoot" style={{ minHeight: '100vh', margin: 0, position: 'relative' }}>
+			<Link href="/" onClick={() => setLoading(true)}>
+				<h1 style={{
+					fontFamily: "'MeowScript', sans-serif",
+					position: 'absolute',
+					top: 15,
+					left: 18,
+					margin: 0,
+					fontSize: '4rem',
+					color: '#ffffff',
+				}}>
+					Lilacsolace .
+				</h1>
+			</Link>
 
 			<nav ref={navRef} className="topNav" aria-label="Main Navigation">
 				<ul className="desktopNav">
-					<li><Link href="/about" className="navItem">about</Link></li>
-					<li><Link href="/booth" className="navItem">booth</Link></li>
-					<li><Link href="/ideas" className="navItem">ideas</Link></li>
+					<li><Link href="/about" className="navItem" onClick={() => setLoading(true)}>about</Link></li>
+					<li><Link href="/booth" className="navItem" onClick={() => setLoading(true)}>booth</Link></li>
+					<li><Link href="/ideas" className="navItem" onClick={() => setLoading(true)}>layouts</Link></li>
 				</ul>
 
 				<button
@@ -105,9 +114,9 @@ export default function Page() {
 
 				{mobileMenuOpen && (
 					<div className="mobileMenu" role="menu" aria-label="Mobile Navigation">
-						<Link href="/about" className="mobileItem" onClick={() => setMobileMenuOpen(false)}>about</Link>
-						<Link href="/booth" className="mobileItem" onClick={() => setMobileMenuOpen(false)}>booth</Link>
-						<Link href="/ideas" className="mobileItem" onClick={() => setMobileMenuOpen(false)}>ideas</Link>
+						<Link href="/about" className="mobileItem" onClick={() => { setMobileMenuOpen(false); setLoading(true); }}>about</Link>
+						<Link href="/booth" className="mobileItem" onClick={() => { setMobileMenuOpen(false); setLoading(true); }}>booth</Link>
+						<Link href="/ideas" className="mobileItem" onClick={() => { setMobileMenuOpen(false); setLoading(true); }}>layouts</Link>
 					</div>
 				)}
 			</nav>
@@ -118,7 +127,7 @@ export default function Page() {
 				width={120}
 				height={70}
 				className='pointer-events-none'
-				style={{ position: 'absolute', top: 210}}
+				style={{ position: 'absolute', top: 210 }}
 			/>
 			<Image
 				src="/storyideas.png"
@@ -137,28 +146,66 @@ export default function Page() {
 					playsInline
 					muted
 				/>
+				<Link href="/booth" onClick={() => setLoading(true)}>
 				<button className="enterBooth" type="button" aria-label="Enter the Booth">
 					<svg className="enterDesktopIcon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
 						<path d="M12 7a5 5 0 100 10 5 5 0 000-10zm8-1h-2.2l-1.4-1.8A1 1 0 0015.7 4H8.3a1 1 0 00-.7.2L6.2 6H4a1 1 0 00-1 1v10a1 1 0 001 1h16a1 1 0 001-1V7a1 1 0 00-1-1zM12 9.5A2.5 2.5 0 1112 14.5 2.5 2.5 0 0112 9.5z" />
 					</svg>
 					<span className="enterDesktopLabel">Enter the Booth</span>
 				</button>
+				</Link>
 			</div>
+			<Link href="/about">
 
-			<button className="enterBoothMobile" type="button" aria-label="Enter the Booth">
+			<button  className="enterBoothMobile" onClick={() => setLoading(true)} aria-label="Enter the Booth">
 				<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" className="enterIcon">
 					<path d="M12 7a5 5 0 100 10 5 5 0 000-10zm8-1h-2.2l-1.4-1.8A1 1 0 0015.7 4H8.3a1 1 0 00-.7.2L6.2 6H4a1 1 0 00-1 1v10a1 1 0 001 1h16a1 1 0 001-1V7a1 1 0 00-1-1zM12 9.5A2.5 2.5 0 1112 14.5 2.5 2.5 0 0112 9.5z" />
 				</svg>
 				<span className="enterLabel">Enter the Booth</span>
 			</button>
-
+</Link>
 			<div className="mobileRightText" role="note">
 				The only Virtual Booth that feels like a real one. Step inside to create unforgettable memories!
 			</div>
 			
 			
 			
+			{/* loader overlay */}
+			{loading && (
+				<div className="pageLoader" role="status" aria-live="polite">
+					<div className="loaderPill" aria-hidden="true">
+						<span className="dot d1" />
+						<span className="dot d2" />
+						<span className="dot d3" />
+					</div>
+				</div>
+			)}
+
 			<style jsx>{`
+				.pageRoot {
+					min-height: 100vh;
+					background: linear-gradient(120deg, #c8a2c8 0%, #eec8f0 40%, #b5a0ff 100%);
+					background-size: 300% 300%;
+					animation: gradientMove 10s ease infinite;
+					/* use the .cur cursor placed in public/; browsers will fall back if unsupported */
+					cursor: url('/cursor.cur'), auto;
+				}
+				/* ensure interactive elements use pointer fallback with the custom cursor */
+				.pageRoot a,
+				.pageRoot button,
+				.pageRoot .navItem,
+				.pageRoot .enterBooth,
+				.pageRoot .enterBoothMobile,
+				.pageRoot .hamburger {
+					cursor: url('/cursor.cur'), pointer;
+				}
+
+				@keyframes gradientMove {
+					0% { background-position: 0% 50%; }
+					50% { background-position: 100% 50%; }
+					100% { background-position: 0% 50%; }
+				}
+
 				.cameraContainer {
 					position: absolute;
 					left: 50%;
@@ -375,6 +422,43 @@ export default function Page() {
 						z-index: 110;
 						filter: drop-shadow(0 10px 20px rgba(0,0,0,0.25));
 					}
+				}
+
+				.pageLoader {
+					position: fixed;
+					inset: 0;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					background: rgba(0,0,0,0.28);
+					backdrop-filter: blur(4px);
+					z-index: 9999;
+				}
+				.loaderPill {
+					display: inline-flex;
+					align-items: center;
+					gap: 10px;
+					padding: 10px 18px;
+					border-radius: 999px;
+					background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+					border: 1px solid rgba(255,255,255,0.1);
+					box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+				}
+				.dot {
+					display: inline-block;
+					width: 10px;
+					height: 10px;
+					border-radius: 50%;
+					background: #ffffff;
+					opacity: 0.95;
+					transform: translateY(0);
+					animation: bounce 500ms infinite ease-in-out;
+				}
+				.dot.d2 { animation-delay: 220ms; }
+				.dot.d3 { animation-delay: 340ms; }
+				@keyframes bounce {
+					0%, 80%, 100% { transform: translateY(0); opacity: 0.85; }
+					40% { transform: translateY(-8px); opacity: 1; }
 				}
 			`}</style>
 			
