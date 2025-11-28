@@ -7,7 +7,7 @@ export default function AboutPage() {
 
   const navRef = useRef<HTMLElement | null>(null);
   return (
-    <main style={{ minHeight: '100vh', backgroundColor: '#c8a2c8', margin: 0, position: 'relative' }}>
+    <main  className="pageRoot" style={{ minHeight: '100vh', backgroundColor: '#c8a2c8', margin: 0, position: 'relative' }}>
       <Link href="/">
 				<h1 style={{
 					fontFamily: "'MeowScript', sans-serif",
@@ -26,10 +26,17 @@ export default function AboutPage() {
       <nav ref={navRef} className="topNav" aria-label="Main Navigation">
         <ul className="desktopNav">
           <li><Link href="/about" className="navItem"  type="button">about</Link></li>
-          <li><Link href="/booth" className="navItem" type="button">booth</Link></li>
-          <li><Link href="/ideas" className="navItem" type="button">ideas</Link></li>
+          <li><Link href="/privacy" className="navItem" type="button">privacy</Link></li>
+          <li><Link href="/ideas" className="navItem" type="button">layouts</Link></li>
         </ul>
       </nav>
+      <footer className="siteFooter" role="contentinfo">
+		<div className="footerPill text-black">
+		  <p>made w ❤️ by <a href="https://arddev.vercel.app" target="_blank" rel="noopener noreferrer" className="text-bold">ard.dev</a></p>
+		  <span className="footerSep">•</span>
+		  <span className="footerCopy">© {new Date().getFullYear()} Lilacsolace</span>
+		</div>
+	  </footer>
       <style jsx>{`
 
       .pageRoot {
@@ -60,20 +67,41 @@ export default function AboutPage() {
           margin-top: 20;
         }
         .topNav li { list-style: none; }
-        .navItem {
+        :global(.navItem) {
           background: transparent;
           color: #ffffff;
           padding: 6px 10px;
           border-radius: 999px;
+          font-family: 'SpaceMono-Bold', 'Space Mono', monospace;
           font-weight: 600;
           cursor: pointer;
           backdrop-filter: blur(4px);
           transition: transform 120ms ease, background 120ms ease, color 120ms ease;
         }
-        .navItem:hover {
+        :global(.navItem):hover {
           transform: translateY(-2px);
           background: rgba(255,255,255,0.06);
         }
+          .siteFooter { position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%); z-index:115; pointer-events: none; }
+       .footerPill {
+        pointer-events: auto;
+        display:inline-flex;
+        align-items:center;
+        gap:10px;
+        padding:8px 14px;
+        color: #000; /* black text in footer */
+      }
+      .footerNav a {
+        color: #000; /* black links */
+        text-decoration: none;
+        font-family: 'SpaceMono-Bold','Space Mono', monospace;
+        font-weight: 700;
+        padding: 6px 8px;
+      }
+      .footerNav a:hover { transform: translateY(-2px); background: rgba(0,0,0,0.03); }
+      .footerSep { color: rgba(0,0,0,0.6); margin:0 6px; }
+      .footerCopy { color: #000; font-weight:600; opacity: 0.95; }
+       @media (max-width:640px) { .siteFooter { bottom:84px; } }
           `}</style>
    
     </main>

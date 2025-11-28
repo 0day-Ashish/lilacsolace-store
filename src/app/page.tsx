@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import Shuffle from '@/components/Shuffle';
 
 export default function Page() {
 	const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -95,7 +96,7 @@ export default function Page() {
 			<nav ref={navRef} className="topNav" aria-label="Main Navigation">
 				<ul className="desktopNav">
 					<li><Link href="/about" className="navItem" onClick={() => setLoading(true)}>about</Link></li>
-					<li><Link href="/booth" className="navItem" onClick={() => setLoading(true)}>booth</Link></li>
+					<li><Link href="/privacy" className="navItem" onClick={() => setLoading(true)}>privacy</Link></li>
 					<li><Link href="/ideas" className="navItem" onClick={() => setLoading(true)}>layouts</Link></li>
 				</ul>
 
@@ -115,7 +116,7 @@ export default function Page() {
 				{mobileMenuOpen && (
 					<div className="mobileMenu" role="menu" aria-label="Mobile Navigation">
 						<Link href="/about" className="mobileItem" onClick={() => { setMobileMenuOpen(false); setLoading(true); }}>about</Link>
-						<Link href="/booth" className="mobileItem" onClick={() => { setMobileMenuOpen(false); setLoading(true); }}>booth</Link>
+						<Link href="/privacy" className="mobileItem" onClick={() => { setMobileMenuOpen(false); setLoading(true); }}>privacy</Link>
 						<Link href="/ideas" className="mobileItem" onClick={() => { setMobileMenuOpen(false); setLoading(true); }}>layouts</Link>
 					</div>
 				)}
@@ -139,6 +140,21 @@ export default function Page() {
 			/>
 
 			<div className="cameraContainer" aria-hidden={isMobile}>
+				<Shuffle
+					text="Photo Booth✨"
+					shuffleDirection="right"
+					duration={0.35}
+					animationMode="evenodd"
+					shuffleTimes={2}
+					ease="power3.out"
+					stagger={0.03}
+					threshold={0.1}
+					triggerOnce={true}
+					triggerOnHover={true}
+					respectReducedMotion={true}
+					style={{ fontFamily: "SpaceMono-Bold, 'Space Mono', monospace" }}
+					className='text-3xl'
+				/>
 				<video
 					ref={videoRef}
 					className="cameraPreview"
@@ -146,12 +162,12 @@ export default function Page() {
 					playsInline
 					muted
 				/>
-				<Link href="/booth" onClick={() => setLoading(true)}>
+				<Link href="/ideas" onClick={() => setLoading(true)}>
 				<button className="enterBooth" type="button" aria-label="Enter the Booth">
 					<svg className="enterDesktopIcon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-						<path d="M12 7a5 5 0 100 10 5 5 0 000-10zm8-1h-2.2l-1.4-1.8A1 1 0 0015.7 4H8.3a1 1 0 00-.7.2L6.2 6H4a1 1 0 00-1 1v10a1 1 0 001 1h16a1 1 0 001-1V7a1 1 0 00-1-1zM12 9.5A2.5 2.5 0 1112 14.5 2.5 2.5 0 0112 9.5z" />
+						<path d="M12 7a5 5 0 100 10 5 5 0 000-10zm8-1h-2.2l-1.4-1.8A1 1 0 0015.7 4H8.3a1 1 0 00-.7.2L6.2 6H4a1 1 0 00-1 1v10a1 1 0 001 1h16a1 1 0 001-1V7a1 1 0 00-1-1zM12 9.5A2.5 2.5 0 1112 14.5 2.5 2.5 0 0112 9.5z" className='bg-black'/>
 					</svg>
-					<span className="enterDesktopLabel">Enter the Booth</span>
+					<span className="enterDesktopLabel text-black">Enter the Booth</span>
 				</button>
 				</Link>
 			</div>
@@ -181,6 +197,15 @@ export default function Page() {
 				</div>
 			)}
 
+			{/* footer */}
+			<footer className="siteFooter" role="contentinfo">
+		<div className="footerPill text-black">
+		  <p>made w ❤️ by <a href="https://arddev.vercel.app" target="_blank" rel="noopener noreferrer" className="text-bold">ard.dev</a></p>
+		  <span className="footerSep">•</span>
+		  <span className="footerCopy">© {new Date().getFullYear()} Lilacsolace</span>
+		</div>
+	  </footer>
+
 			<style jsx>{`
 				.pageRoot {
 					min-height: 100vh;
@@ -193,7 +218,7 @@ export default function Page() {
 				/* ensure interactive elements use pointer fallback with the custom cursor */
 				.pageRoot a,
 				.pageRoot button,
-				.pageRoot .navItem,
+				.pageRoot :global(.navItem),
 				.pageRoot .enterBooth,
 				.pageRoot .enterBoothMobile,
 				.pageRoot .hamburger {
@@ -316,17 +341,18 @@ export default function Page() {
 					margin-top: 20;
 				}
 				.topNav li { list-style: none; }
-				.navItem {
+				:global(.navItem) {
 					background: transparent;
 					color: #ffffff;
 					padding: 6px 10px;
 					border-radius: 999px;
-					font-weight: 600;
+					font-family: 'SpaceMono-Bold', 'Space Mono', monospace;
+					font-weight: 700;
 					cursor: pointer;
 					backdrop-filter: blur(4px);
 					transition: transform 120ms ease, background 120ms ease, color 120ms ease;
 				}
-				.navItem:hover {
+				:global(.navItem):hover {
 					transform: translateY(-2px);
 					background: rgba(255,255,255,0.06);
 				}
@@ -372,16 +398,17 @@ export default function Page() {
 					box-shadow: 0 8px 24px rgba(0,0,0,0.35);
 					z-index: 95;
 				}
-				.mobileItem {
+				:global(.mobileItem) {
 					background: transparent;
 					color: #fff;
 					padding: 8px 12px;
 					border-radius: 8px;
 					text-align: left;
-					font-weight: 600;
+					font-family: 'SpaceMono-Bold', 'Space Mono', monospace;
+					font-weight: 700;
 					cursor: pointer;
 				}
-				.mobileItem:hover { background: rgba(255,255,255,0.04); }
+				:global(.mobileItem):hover { background: rgba(255,255,255,0.04); }
 
 				.mobileRightText { display: none; }
 				@media (max-width: 640px) {
@@ -459,6 +486,43 @@ export default function Page() {
 				@keyframes bounce {
 					0%, 80%, 100% { transform: translateY(0); opacity: 0.85; }
 					40% { transform: translateY(-8px); opacity: 1; }
+				}
+
+				.siteFooter {
+					position: fixed;
+					left: 50%;
+					bottom: 18px;
+					transform: translateX(-50%);
+					z-index: 115;
+					pointer-events: none; /* outer container not interactive, inner pill is */
+				}
+				.footerPill {
+					pointer-events: auto;
+					display: inline-flex;
+					align-items: center;
+					gap: 10px;
+					padding: 8px 14px;
+					color: #000; /* make footer text black */
+					font-size: 0.95rem;
+					display: flex;
+					align-items: center;
+					gap: 12px;
+				}
+				.footerNav a {
+					color: #000; /* black footer links */
+					text-decoration: none;
+					font-family: 'SpaceMono-Bold', 'Space Mono', monospace;
+					font-weight: 700;
+					letter-spacing: 0.4px;
+					padding: 6px 8px;
+					transition: transform 120ms ease;
+				}
+				.footerNav a:hover { transform: translateY(-2px); background: rgba(0,0,0,0.03); }
+				.footerSep { color: rgba(0,0,0,0.6); margin: 0 6px; }
+				.footerCopy { color: #000; opacity: 0.9; font-weight: 600; }
+				@media (max-width: 640px) {
+					.siteFooter { bottom: 84px; } /* keep above mobile pill button */
+					.footerPill { font-size: 0.92rem; padding: 10px 12px; gap: 8px; }
 				}
 			`}</style>
 			
