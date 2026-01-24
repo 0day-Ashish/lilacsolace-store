@@ -5,6 +5,7 @@ import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Shuffle from '@/components/Shuffle';
+import { Instagram, Github, Globe } from 'lucide-react';
 
 export default function Page() {
 	const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -78,7 +79,10 @@ export default function Page() {
 	}, [pathname]);
 
 	return (
-		<main className="pageRoot" style={{ minHeight: '100vh', margin: 0, position: 'relative' }}>
+		<>
+			<div className="fixedBackground" />
+			<div className="heroSection">
+				<main className="pageRoot" style={{ minHeight: '100vh', margin: 0, position: 'relative' }}>
 			<Link href="/" onClick={() => setLoading(true)}>
 				<h1 style={{
 					fontFamily: "'MeowScript', sans-serif",
@@ -87,7 +91,7 @@ export default function Page() {
 					left: 18,
 					margin: 0,
 					fontSize: '4rem',
-					color: '#ffffff',
+					color: '#000000',
 				}}>
 					Lilacsolace .
 				</h1>
@@ -206,12 +210,99 @@ export default function Page() {
 		</div>
 	  </footer>
 
+			</main>
+			</div>
+
+			{/* Scrollable Meet the Developer Section */}
+			<section className="developerSection" aria-label="Meet the Developer">
+				<div className="developerContent">
+					<h2 className="developerHeading">Meet the Developer</h2>
+					<div className="profileCard">
+						<div className="profileImageWrapper">
+							<Image
+								src="/avtar1.jpg"
+								alt="Developer Profile"
+								width={120}
+								height={120}
+								className="profileImage"
+							/>
+						</div>
+						<div className="developerInfo">
+							<p className="developerName">ard.dev</p>
+							<p className="developerText">
+								made with ❤️ by{" "}
+								<a
+									href="https://arddev.vercel.app"
+									target="_blank"
+									rel="noopener noreferrer"
+									className="developerLink"
+								>
+									ard.dev
+								</a>
+							</p>
+						</div>
+						<div className="socialLinks">
+							<a
+								href="https://instagram.com/ashishh_rd_"
+								target="_blank"
+								rel="noopener noreferrer"
+								className="socialLink"
+								aria-label="Instagram"
+							>
+								<Instagram size={20} />
+							</a>
+							<a
+								href="https://github.com/0day-Ashish"
+								target="_blank"
+								rel="noopener noreferrer"
+								className="socialLink"
+								aria-label="GitHub"
+							>
+								<Github size={20} />
+							</a>
+							<a
+								href="https://arddev.vercel.app"
+								target="_blank"
+								rel="noopener noreferrer"
+								className="socialLink"
+								aria-label="Personal Website"
+							>
+								<Globe size={20} />
+							</a>
+						</div>
+						<p className="developerCopyright">
+							© {new Date().getFullYear()} Lilacsolace
+						</p>
+					</div>
+				</div>
+			</section>
+
 			<style jsx>{`
-				.pageRoot {
-					min-height: 100vh;
+				.fixedBackground {
+					position: fixed;
+					top: 0;
+					left: 0;
+					width: 100%;
+					height: 100%;
 					background: linear-gradient(120deg, #c8a2c8 0%, #eec8f0 40%, #b5a0ff 100%);
 					background-size: 300% 300%;
 					animation: gradientMove 10s ease infinite;
+					z-index: -1;
+				}
+				.heroSection {
+					position: relative;
+					min-height: 100vh;
+					display: flex;
+					flex-direction: column;
+					justify-content: space-between;
+					z-index: 1;
+				}
+				.pageRoot {
+					min-height: calc(100vh - 80px);
+					position: relative;
+					flex: 1;
+					display: flex;
+					flex-direction: column;
 					/* use the .cur cursor placed in public/; browsers will fall back if unsupported */
 					cursor: url('/cursor.cur'), auto;
 				}
@@ -489,25 +580,30 @@ export default function Page() {
 				}
 
 				.siteFooter {
-					position: fixed;
-					left: 50%;
-					bottom: 18px;
-					transform: translateX(-50%);
+					position: relative;
+					left: 0;
+					bottom: 0;
+					transform: none;
 					z-index: 115;
 					pointer-events: none; /* outer container not interactive, inner pill is */
+					display: flex;
+					justify-content: center;
+					width: 100%;
+					margin-top: auto;
+					padding: 20px 0;
 				}
 				.footerPill {
 					pointer-events: auto;
 					display: inline-flex;
+					flex-direction: row;
+					justify-content: center; /* center content horizontally */
 					align-items: center;
 					gap: 10px;
 					padding: 8px 14px;
-					color: #000; /* make footer text black */
+					color: #000; /* keep footer text black */
 					font-size: 0.95rem;
-					display: flex;
-					align-items: center;
-					gap: 12px;
 				}
+				.footerPill p { margin: 0; } /* remove default paragraph margin */
 				.footerNav a {
 					color: #000; /* black footer links */
 					text-decoration: none;
@@ -521,11 +617,167 @@ export default function Page() {
 				.footerSep { color: rgba(0,0,0,0.6); margin: 0 6px; }
 				.footerCopy { color: #000; opacity: 0.9; font-weight: 600; }
 				@media (max-width: 640px) {
-					.siteFooter { bottom: 84px; } /* keep above mobile pill button */
+					.siteFooter { margin-top: 20px; padding: 20px 0; } /* keep above mobile pill button */
 					.footerPill { font-size: 0.92rem; padding: 10px 12px; gap: 8px; }
 				}
+
+				.developerSection {
+					position: relative;
+					width: 100%;
+					min-height: 100vh;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					padding: 60px 20px;
+					margin-top: -10vh;
+					z-index: 1;
+				}
+				.developerContent {
+					text-align: center;
+					background: rgba(255, 255, 255, 0.1);
+					backdrop-filter: blur(10px);
+					border-radius: 20px;
+					padding: 24px;
+					border: 1px solid rgba(255, 255, 255, 0.2);
+					box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+					max-width: 320px;
+					width: 100%;
+				}
+				.developerHeading {
+					font-family: 'SpaceMono-Bold', 'Space Mono', monospace;
+					font-size: 1.1rem;
+					font-weight: 700;
+					color: #ffffff;
+					margin: 0 0 16px 0;
+					text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+				}
+				.profileCard {
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					gap: 12px;
+				}
+				.profileImageWrapper {
+					width: 120px;
+					height: 120px;
+					border-radius: 50%;
+					overflow: hidden;
+					border: 3px solid rgba(255, 255, 255, 0.3);
+					box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+					background: rgba(255, 255, 255, 0.1);
+					display: flex;
+					align-items: center;
+					justify-content: center;
+				}
+				.profileImage {
+					width: 100%;
+					height: 100%;
+					object-fit: cover;
+					border-radius: 50%;
+				}
+				.developerInfo {
+					display: flex;
+					flex-direction: column;
+					gap: 4px;
+					align-items: center;
+				}
+				.developerName {
+					margin: 0;
+					font-size: 1rem;
+					font-weight: 700;
+					color: #ffffff;
+					font-family: 'SpaceMono-Bold', 'Space Mono', monospace;
+					text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+				}
+				.developerText {
+					margin: 0;
+					font-size: 0.85rem;
+					color: rgba(255, 255, 255, 0.9);
+					font-weight: 500;
+				}
+				.developerLink {
+					color: #ffffff;
+					text-decoration: none;
+					font-weight: 700;
+					font-family: 'SpaceMono-Bold', 'Space Mono', monospace;
+					transition: opacity 0.2s ease;
+					text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+				}
+				.developerLink:hover {
+					opacity: 0.8;
+					text-decoration: underline;
+				}
+				.socialLinks {
+					display: flex;
+					gap: 12px;
+					justify-content: center;
+					align-items: center;
+					margin-top: 8px;
+				}
+				.socialLink {
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					width: 40px;
+					height: 40px;
+					border-radius: 50%;
+					background: rgba(255, 255, 255, 0.15);
+					border: 1px solid rgba(255, 255, 255, 0.2);
+					color: #ffffff;
+					text-decoration: none;
+					transition: all 0.2s ease;
+					backdrop-filter: blur(5px);
+				}
+				.socialLink:hover {
+					background: rgba(255, 255, 255, 0.25);
+					transform: translateY(-2px);
+					box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+				}
+				.socialLink:active {
+					transform: translateY(0);
+				}
+				.developerCopyright {
+					margin: 12px 0 0 0;
+					font-size: 0.8rem;
+					color: rgba(255, 255, 255, 0.8);
+					font-weight: 500;
+				}
+				@media (max-width: 640px) {
+					.developerSection {
+						padding: 40px 16px;
+					}
+					.developerContent {
+						padding: 20px;
+						max-width: 280px;
+					}
+					.developerHeading {
+						font-size: 1rem;
+						margin-bottom: 12px;
+					}
+					.profileImageWrapper {
+						width: 100px;
+						height: 100px;
+					}
+					.developerName {
+						font-size: 0.95rem;
+					}
+					.developerText {
+						font-size: 0.8rem;
+					}
+					.socialLink {
+						width: 36px;
+						height: 36px;
+					}
+					.socialLink :global(svg) {
+						width: 18px;
+						height: 18px;
+					}
+					.developerCopyright {
+						font-size: 0.75rem;
+						margin-top: 10px;
+					}
+				}
 			`}</style>
-			
-		</main>
+		</>
 	);
 }
